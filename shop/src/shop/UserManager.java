@@ -13,18 +13,30 @@ public class UserManager {
 	// 기능 CRUD
 	// C 회원가입
 	public User createUser(String id, String password, String name) {
-		User user = new User(id, password, name);
-		userList.add(user);
-		return user.clone();
+		if (existedId(id)) {
+			User user = new User(id, password, name);
+			userList.add(user);
+			return user.clone();
+		}
+		return new User();
 	}
 
-	// id 안겹치게 할 거니까 아이디 조회
+	// id 안겹치게 할 거니까 아이디로 조회
 	public User getUserById(String id) {
 		for (User user : userList) {
 			if (user.getId().equals(id))
 				return user;
 		}
 		return new User();
+	}
+
+	public boolean existedId(String id) {
+		User user = getUserById(id);
+		// 카트를 회원가입하면 자동으로 부여할거니까
+		if (user.getCart() == null) {
+			return true;
+		}
+		return false;
 	}
 
 	// 업데이트 > 비밀번호 재설정
