@@ -26,4 +26,11 @@ public class UserManager {
 		}
 		return new User();
 	}
+
+	// 업데이트 > 비밀번호 재설정
+	public void updateUserPassword(User user, String password) {
+		String id = user.getId();
+		User target = getUserById(id);
+		target.setPassword(password);
+	}
 }
