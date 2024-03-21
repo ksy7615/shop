@@ -33,4 +33,12 @@ public class UserManager {
 		User target = getUserById(id);
 		target.setPassword(password);
 	}
+
+	// D 회원탈퇴
+	public boolean deleteUser(User user) {
+		String userId = user.getId();
+		User target = getUserById(userId);
+
+		return userList.remove(target);
+	}
 }
