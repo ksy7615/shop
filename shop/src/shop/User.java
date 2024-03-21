@@ -2,6 +2,7 @@ package shop;
 
 public class User {
 	private String id, password, name;
+	private Cart basket;
 	
 	public User() {
 		
@@ -14,15 +15,23 @@ public class User {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
+	}
+	
+	public Cart getCart() {
+		return basket.clone();
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public User clone() {
