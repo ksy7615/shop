@@ -3,6 +3,10 @@ package shop;
 public class User {
 	private String id, password, name;
 	
+	public User() {
+		
+	}
+	
 	public User(String id, String password, String name) {
 		this.id = id;
 		this.password = password;
