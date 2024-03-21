@@ -2,31 +2,29 @@ package shop;
 
 public class Item {
 	private String itemName;
-	private int itemCount;
+	private int price;
+	private int itemCode;
 	
 	public Item() {
 		
 	}
 	
-	public Item(String itemName, int itemCount) {
+	public Item(String itemName, int price, int itemCode) {
 		this.itemName = itemName;
-		this.itemCount = itemCount;
+		this.price = price;
+		this.itemCode = itemCode;
 	}
 	
 	public String getItemName() {
 		return this.itemName;
 	}
 	
-	public int getItemCount() {
-		return this.itemCount;
-	}
-	
-	public void setItemCount(int itemCount) {
-		this.itemCount = itemCount;
+	public int getPrice() {
+		return this.price;
 	}
 	
 	public Item clone() {
-		return new Item(this.itemName, this.itemCount);
+		return new Item(this.itemName, this.price, this.itemCode);
 	}
 	
 }
