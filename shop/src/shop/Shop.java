@@ -44,9 +44,9 @@ public class Shop {
 			leave();
 		else if (select == 3)
 			login();
-		else if(select == 4)
+		else if (select == 4)
 			logout();
-		else if(select == 5)
+		else if (select == 5)
 			shopping();
 		else if (select == 6) {
 			printMyCartMenu();
@@ -93,39 +93,37 @@ public class Shop {
 
 		for (int i = 0; i < userManager.getUserSize(); i++) {
 			User user = userManager.getUserById(id);
-			
+
 			if (!user.getId().equals(id) || !user.getPassword().equals(password)) {
 				System.err.println("회원정보 확인 요망");
 				return;
 			}
 			log = i;
 		}
-		if(log != -1)
+		if (log != -1)
 			System.out.println("로그인 완료");
 	}
-	
+
 	private void logout() {
 		log = -1;
 		System.out.println("로그아웃 완료");
 	}
-	
+
 	private void shopping() {
 		itemManager.printItemAll();
-		int index = inputNumber("구매할 품목")-1;
-		
-		if(index < 0 || index >= itemManager.getItemSize())
+		int index = inputNumber("구매할 품목") - 1;
+
+		if (index < 0 || index >= itemManager.getItemSize())
 			return;
 
 		int count = inputNumber("담을 수량");
-		for(int i=0; i<itemManager.getItemSize(); i++) {
+		for (int i = 0; i < itemManager.getItemSize(); i++) {
 			Item item = itemManager.getItem(i);
-			
-			if(item.getItemCount() < count) {
+
+			if (item.getItemCount() < count) {
 				System.err.println("품절");
 				return;
 			}
-			item.setItemCount(item.getItemCount()-count);
-			
 			userManager.getUser(log).getCart().addCart();
 			System.out.println("장바구니 담기 완료");
 		}
@@ -138,36 +136,40 @@ public class Shop {
 		System.out.println("3) 결제하기");
 		System.out.println("------------");
 	}
-	
+
 	private void deleteOfBasket() {
 		userManager.getUser(log).getCart().printMyCart();
 		int index = inputNumber("삭제할 품목") - 1;
-		
-		if(index < 0 || index >= userManager.getUser(log).getCart().cartSize())
+
+		if (index < 0 || index >= userManager.getUser(log).getCart().cartSize())
 			return;
-		
+
 		Item item = itemManager.getItem(index);
-		
+
 		userManager.getUser(log).getCart().deleteCart(item);
 	}
 
 	private void modifyOfBasket() {
 		userManager.getUser(log).getCart().printMyCart();
 		int index = inputNumber("수정할 품목") - 1;
-		
-		if(index < 0 || index >= userManager.getUser(log).getCart().cartSize())
+
+		if (index < 0 || index >= userManager.getUser(log).getCart().cartSize())
 			return;
-		
+
 		Item item = itemManager.getItem(index);
 		int count = inputNumber("수정");
-		
-		userManager.getUser(log).getCart().updateCart(item, item.getItemCount()+count);
+
+		userManager.getUser(log).getCart().updateCart(item, item.getItemCount() + count);
 	}
-	
+
+	private void purchase() {
+//		item.setItemCount(item.getItemCount() - count);
+	}
+
 	private void runMypage(int select) {
-		if(select == 1)
+		if (select == 1)
 			deleteOfBasket();
-		else if(select == 2)
+		else if (select == 2)
 			modifyOfBasket();
 //		else if(select == 3)
 //			purchase();
@@ -197,32 +199,32 @@ public class Shop {
 		System.out.println("4) 수량수정");
 		System.out.println("------------");
 	}
-	
+
 	private void enrollItem() {
 		String itemName = inputString("품목명");
 		int price = inputNumber("가격");
 		int itemCount = inputNumber("수량");
-		
+
 		Item item = itemManager.createItem(itemName, price, itemCount);
 		System.out.printf("%s(code:%d) 등록 완료\n", itemName, item.getItemCode());
 	}
-	
+
 	private void deleteItem() {
 		itemManager.printItemAll();
-		int index = inputNumber("삭제할 품목")-1;
-		
+		int index = inputNumber("삭제할 품목") - 1;
+
 		Item item = itemManager.getItem(index);
 		itemManager.deleteItem(item);
 		System.out.println("아이템 삭제 완료");
-		
+
 		// + 아이템 삭제하면 회원의 장바구니에 있는 해당 아이템도 삭제
 		userManager.getUser(log).getCart().deleteCart(item);
 	}
 
 	private void runItemSubMenu(int select) {
-		if(select == 1)
+		if (select == 1)
 			enrollItem();
-		else if(select == 2)
+		else if (select == 2)
 			deleteItem();
 //		else if(select == 3)
 //			modifyItemPrice();
