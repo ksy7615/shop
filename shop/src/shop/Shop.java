@@ -46,8 +46,8 @@ public class Shop {
 			login();
 		else if(select == 4)
 			logout();
-//		else if(select == 5)
-//			shopping();
+		else if(select == 5)
+			shopping();
 		else if (select == 6) {
 			printMyCartMenu();
 			runMypage(option());
@@ -109,12 +109,26 @@ public class Shop {
 		System.out.println("로그아웃 완료");
 	}
 	
-//	private void shopping() {
-//		itemManager.printItemAll();
-//		int index = inputNumber("구매할 품목")-1;
-//		
-//		
-//	}
+	private void shopping() {
+		itemManager.printItemAll();
+		int index = inputNumber("구매할 품목")-1;
+		
+		if(index < 0 || index >= itemManager.getItemSize())
+			return;
+
+		int count = inputNumber("담을 수량");
+		for(int i=0; i<itemManager.getItemSize(); i++) {
+			Item item = itemManager.getItem(i);
+			
+			if(item.getItemCount() < count) {
+				System.err.println("품절");
+				return;
+			}
+			item.setItemCount(item.getItemCount()-count);
+			userManager.getUser(log).getCart().addCart();
+			System.out.println("장바구니 담기 완료");
+		}
+	}
 
 	private void printMyCartMenu() {
 		System.out.println("------------");
@@ -174,6 +188,8 @@ public class Shop {
 		Item item = itemManager.getItem(index);
 		itemManager.deleteItem(item);
 		System.out.println("아이템 삭제 완료");
+		
+		// + 아이템 삭제하면 회원의 장바구니에 있는 해당 아이템도 삭제
 	}
 
 	private void runItemSubMenu(int select) {
