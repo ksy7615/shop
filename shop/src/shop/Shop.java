@@ -163,7 +163,31 @@ public class Shop {
 	}
 
 	private void purchase() {
-//		item.setItemCount(item.getItemCount() - count);
+		userManager.getUser(log).getCart().printMyCart();
+		
+		Cart cart = userManager.getUser(log).getCart();
+		
+		// 결제 금액 >> 수량 * price
+		int total = 0;
+		for(int i=0; i<cart.cartSize(); i++) {
+			total = cart.getItemInCart().getItemCount() * cart.getItemInCart().getPrice();
+			System.out.println("결제할 금액 = " + total);
+		}
+		
+		int money = inputNumber("결제하기");
+		
+		if(money < total) {
+			System.out.println("잔액이 부족합니다.");
+			return;
+		}
+		
+		for (int i = 0; i < itemManager.getItemSize(); i++) {
+			Item item = itemManager.getItem(i);
+			
+			if(item.getItemCode() == cart.getItemInCart().getItemCode())
+				item.setItemCount(item.getItemCount() - cart.getItemInCart().getItemCount());
+		}
+		System.out.println("결제 완료");
 	}
 
 	private void runMypage(int select) {
@@ -171,8 +195,8 @@ public class Shop {
 			deleteOfBasket();
 		else if (select == 2)
 			modifyOfBasket();
-//		else if(select == 3)
-//			purchase();
+		else if(select == 3)
+			purchase();
 	}
 
 	private void printAdminSubMenu() {
