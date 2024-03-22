@@ -23,6 +23,10 @@ public class Item {
 		return this.price;
 	}
 	
+	public int getItemCode() {
+		return this.itemCode;
+	}
+	
 	public Item clone() {
 		return new Item(this.itemName, this.price, this.itemCode);
 	}
