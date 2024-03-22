@@ -163,15 +163,24 @@ public class Shop {
 		int price = inputNumber("가격");
 		int itemCount = inputNumber("수량");
 		
-		itemManager.createItem(itemName, price, itemCount);
-		System.out.println("아이템 등록 완료");
+		Item item = itemManager.createItem(itemName, price, itemCount);
+		System.out.printf("%s(code:%d) 등록 완료\n", itemName, item.getItemCode());
+	}
+	
+	private void deleteItem() {
+		itemManager.printItemAll();
+		int index = inputNumber("삭제할 품목")-1;
+		
+		Item item = itemManager.getItem(index);
+		itemManager.deleteItem(item);
+		System.out.println("아이템 삭제 완료");
 	}
 
 	private void runItemSubMenu(int select) {
 		if(select == 1)
 			enrollItem();
-//		else if(select == 2)
-//			deleteItem();
+		else if(select == 2)
+			deleteItem();
 //		else if(select == 3)
 //			modifyItemPrice();
 //		else if(select == 4)
