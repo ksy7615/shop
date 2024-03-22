@@ -12,9 +12,12 @@ public class ItemManager {
 	// 아이템 생성
 	public Item createItem(String itemName, int price) {
 		int itemCode = createItemCode();
-		Item item = new Item(itemName, price, itemCode);
-		itemList.add(item);
-		return item.clone();
+		if (isValidItemCode(itemCode)) {
+			Item item = new Item(itemName, price, itemCode);
+			itemList.add(item);
+			return item.clone();
+		}
+		return new Item();
 	}
 
 	private int createItemCode() {
@@ -31,7 +34,7 @@ public class ItemManager {
 		}
 		return itemCode;
 	}
-	
+
 	public Item findItemByItemCode(int itemCode) {
 		for (Item item : itemList) {
 			if (item.getItemCode() == itemCode) {
@@ -39,6 +42,19 @@ public class ItemManager {
 			}
 		}
 		return new Item();
+	}
+
+	public Item findItemByName(String itemName) {
+		for (Item item : itemList) {
+			if (item.getItemName().equals(itemName)) {
+				return item.clone();
+			}
+		}
+		return new Item();
+	}
+
+	public boolean isValidItemCode(int itemCode) {
+		return itemCode != 0;
 	}
 
 }
