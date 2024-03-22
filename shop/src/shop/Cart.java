@@ -21,5 +21,13 @@ public class Cart {
 		}
 		return new Item();
 	}
+	
+	public void printMyCart() {
+		for(int i=0; i<list.size(); i++) {
+			Item item = list.get(i);
+			System.out.println("MY BASKET");
+			System.out.printf("%d) %s", i+1, item.getItemName());
+		}
+	}
 
 }
