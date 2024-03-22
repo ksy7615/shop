@@ -125,7 +125,9 @@ public class Shop {
 				return;
 			}
 			item.setItemCount(item.getItemCount()-count);
+			
 			userManager.getUser(log).getCart().addCart();
+			userManager.getUser(log).getCart().printMyCart();
 			System.out.println("장바구니 담기 완료");
 		}
 	}
@@ -137,10 +139,14 @@ public class Shop {
 		System.out.println("3) 결제하기");
 		System.out.println("------------");
 	}
+	
+	private void deleteOfBasket() {
+		userManager.getUser(log).getCart().printMyCart();
+	}
 
 	private void runMypage(int select) {
-//		if(select == 1)
-//			deleteOfBasket();
+		if(select == 1)
+			deleteOfBasket();
 //		else if(select == 2)
 //			modifyOfBasket();
 //		else if(select == 3)
