@@ -36,6 +36,11 @@ public class ItemManager {
 	}
 	
 	// R
+	public Item getItem(int index) {
+		Item item = itemList.get(index);
+		return item;
+	}
+	
 	public Item findItemByItemCode(int itemCode) {
 		for (Item item : itemList) {
 			if (item.getItemCode() == itemCode) {
