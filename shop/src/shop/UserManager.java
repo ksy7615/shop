@@ -3,7 +3,6 @@ package shop;
 import java.util.ArrayList;
 
 public class UserManager {
-
 	private ArrayList<User> userList;
 
 	public UserManager() {
@@ -20,8 +19,13 @@ public class UserManager {
 		}
 		return new User();
 	}
-
-	// id 안겹치게 할 거니까 아이디로 조회
+	
+	public User getUser(int index) {
+		User user = userList.get(index);
+		return user.clone();
+	}
+	
+	// 아이디로 조회
 	public User getUserById(String id) {
 		for (User user : userList) {
 			if (user.getId().equals(id))
@@ -32,7 +36,7 @@ public class UserManager {
 
 	public boolean existedId(String id) {
 		User user = getUserById(id);
-		// 카트를 회원가입하면 자동으로 부여할거니까
+		
 		if (user.getCart() == null) {
 			return true;
 		}
@@ -52,5 +56,9 @@ public class UserManager {
 		User target = getUserById(userId);
 
 		return userList.remove(target);
+	}
+	
+	public int getUserSize() {
+		return this.userList.size();
 	}
 }
