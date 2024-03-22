@@ -46,5 +46,11 @@ public class Cart {
 		target.setItemCount(count);
 	}
 	
+	// 삭제
+	public void deleteCart(Item item) {
+		int code = item.getItemCode();
+		Item target = findItemInCartByCode(code);
+		list.remove(target);
+	}
 
 }
