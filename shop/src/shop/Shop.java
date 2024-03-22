@@ -53,7 +53,19 @@ public class Shop {
 	}
 	
 	private void join() {
+		String id = inputString("id");
+		String password = inputString("password");
+		String name = inputString("name");
 		
+		User user = userManager.createUser(id, password, name);
+		printWelcomeMessage(user, id);
+	}
+	
+	// >>> 아이디 겹칠 때 메시지 오류
+	private void printWelcomeMessage(User user, String id) {
+		String message = !user.equals(userManager.getUserById(id)) ? String.format("%s님 환영합니다", user.getName()) :
+			"회원가입 실패";
+		System.out.println(message);
 	}
 	
 	private void printMyCartMenu() {
@@ -120,8 +132,19 @@ public class Shop {
 		}
 	}
 	
+	// 검수용 >>>
+	private void printStatus() {
+		int userSize = userManager.getUserSize();
+		int itemSize = itemManager.getItemSize();
+		
+		String status = String.format("User : %d\nItem : %d", userSize, itemSize);
+		
+		System.out.println(status);
+	}
+	
 	public void run() {
 		while(isRun) {
+			printStatus();
 			printMenu();
 			runMenu(option());
 		}
@@ -141,6 +164,11 @@ public class Shop {
 			System.err.println("숫자를 입력하세요.");
 		}
 		return number;
+	}
+	
+	private String inputString(String message) {
+		System.out.print(message + " : ");
+		return scanner.next();
 	}
 
 }
