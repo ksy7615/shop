@@ -44,7 +44,7 @@ public class ItemManager {
 	public Item findItemByItemCode(int itemCode) {
 		for (Item item : itemList) {
 			if (item.getItemCode() == itemCode) {
-				return item.clone();
+				return item;
 			}
 		}
 		return new Item();
@@ -53,7 +53,7 @@ public class ItemManager {
 	public Item findItemByName(String itemName) {
 		for (Item item : itemList) {
 			if (item.getItemName().equals(itemName)) {
-				return item.clone();
+				return item;
 			}
 		}
 		return new Item();
@@ -66,7 +66,7 @@ public class ItemManager {
 	public void printItemAll() {
 		for(int i=0; i<itemList.size(); i++) {
 			Item item = itemList.get(i);
-			System.out.printf("%d) %s", i+1, item.getItemName());
+			System.out.printf("%d) %s\n", i+1, item.getItemName());
 		}
 	}
 	
