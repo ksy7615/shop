@@ -151,11 +151,24 @@ public class Shop {
 		userManager.getUser(log).getCart().deleteCart(item);
 	}
 
+	private void modifyOfBasket() {
+		userManager.getUser(log).getCart().printMyCart();
+		int index = inputNumber("수정할 품목") - 1;
+		
+		if(index < 0 || index >= userManager.getUser(log).getCart().cartSize())
+			return;
+		
+		Item item = itemManager.getItem(index);
+		int count = inputNumber("수정");
+		
+		userManager.getUser(log).getCart().updateCart(item, item.getItemCount()+count);
+	}
+	
 	private void runMypage(int select) {
 		if(select == 1)
 			deleteOfBasket();
-//		else if(select == 2)
-//			modifyOfBasket();
+		else if(select == 2)
+			modifyOfBasket();
 //		else if(select == 3)
 //			purchase();
 	}
