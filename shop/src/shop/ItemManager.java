@@ -66,7 +66,7 @@ public class ItemManager {
 	public void printItemAll() {
 		for(int i=0; i<itemList.size(); i++) {
 			Item item = itemList.get(i);
-			System.out.printf("%d) %s\n", i+1, item.getItemName());
+			System.out.printf("%d) %s [수량:%d]\n", i+1, item.getItemName(), item.getItemCount());
 		}
 	}
 	
