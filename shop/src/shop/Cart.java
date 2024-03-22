@@ -22,6 +22,13 @@ public class Cart {
 		return new Item();
 	}
 	
+	public Item getItemInCart () {
+		for(Item item : list) {
+			return item.clone();
+		}
+		return new Item();
+	}
+	
 	public Item findItemInCartByCode(int code) {
 		for(Item item : list) {
 			if(item.getItemCode() == code) {
