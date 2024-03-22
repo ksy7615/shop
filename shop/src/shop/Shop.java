@@ -5,25 +5,27 @@ import java.util.Scanner;
 public class Shop {
 	private UserManager userManager = new UserManager();
 	private ItemManager itemManager = new ItemManager();
-	
+
 	private Scanner scanner = new Scanner(System.in);
-	
+
 	private String shopTitle;
 	private boolean isRun;
-	
-	
+
+	private int log;
+
 	public Shop(String shopTitle) {
 		this.shopTitle = shopTitle;
 		this.isRun = true;
+		this.log = -1;
 	}
-	
+
 	private void printMenu() {
 		System.out.printf("----%s----\n", this.shopTitle);
 		System.out.println("[1. 유저]");
 		System.out.println("[2. 관리자]");
 		System.out.println("------------");
 	}
-	
+
 	private void printUserSubMenu() {
 		System.out.println("------------");
 		System.out.println("1) 회원가입");
@@ -34,40 +36,86 @@ public class Shop {
 		System.out.println("6) 내 장바구니");
 		System.out.println("------------");
 	}
-	
+
 	private void runUserSubMenu(int select) {
-		if(select == 1)
+		if (select == 1)
 			join();
-//		else if(select == 2)
-//			leave();
-//		else if(select == 3)
-//			login();
-//		else if(select == 4)
-//			logout();
+		else if (select == 2)
+			leave();
+		else if (select == 3)
+			login();
+		else if(select == 4)
+			logout();
 //		else if(select == 5)
 //			shopping();
-		else if(select == 6) {
+		else if (select == 6) {
 			printMyCartMenu();
 			runMypage(option());
 		}
 	}
-	
+
 	private void join() {
 		String id = inputString("id");
 		String password = inputString("password");
 		String name = inputString("name");
-		
+
 		User user = userManager.createUser(id, password, name);
 		printWelcomeMessage(user, id);
 	}
-	
+
 	// >>> 아이디 겹칠 때 메시지 오류
 	private void printWelcomeMessage(User user, String id) {
-		String message = !user.equals(userManager.getUserById(id)) ? String.format("%s님 환영합니다", user.getName()) :
-			"회원가입 실패";
+		String message = !user.equals(userManager.getUserById(id)) ? String.format("%s님 환영합니다", user.getName())
+				: "회원가입 실패";
 		System.out.println(message);
 	}
+
+	// 로그인 돼있어야하고 >> 나중에 추가하기
+	private void leave() {
+		String id = inputString("id 재확인");
+		User user = userManager.getUserById(id);
+
+		if (user != null) {
+			String password = inputString("password 재확인");
+			if (user.getPassword().equals(password)) {
+				userManager.deleteUser(user);
+				System.out.println("회원탈퇴 완료");
+			}
+		} else {
+			System.out.println("회원정보 확인 요망");
+			return;
+		}
+	}
+
+	private void login() {
+		String id = inputString("id");
+		String password = inputString("password");
+
+		for (int i = 0; i < userManager.getUserSize(); i++) {
+			User user = userManager.getUserById(id);
+			
+			if (!user.getId().equals(id) || !user.getPassword().equals(password)) {
+				System.err.println("회원정보 확인 요망");
+				return;
+			}
+			log = i;
+		}
+		if(log != -1)
+			System.out.println("로그인 완료");
+	}
 	
+	private void logout() {
+		log = -1;
+		System.out.println("로그아웃 완료");
+	}
+	
+//	private void shopping() {
+//		itemManager.printItemAll();
+//		int index = inputNumber("구매할 품목")-1;
+//		
+//		
+//	}
+
 	private void printMyCartMenu() {
 		System.out.println("------------");
 		System.out.println("1) 항목삭제");
@@ -75,7 +123,7 @@ public class Shop {
 		System.out.println("3) 결제하기");
 		System.out.println("------------");
 	}
-	
+
 	private void runMypage(int select) {
 //		if(select == 1)
 //			deleteOfBasket();
@@ -84,23 +132,23 @@ public class Shop {
 //		else if(select == 3)
 //			purchase();
 	}
-	
+
 	private void printAdminSubMenu() {
 		System.out.println("------------");
 		System.out.println("1) 아이템");
 		System.out.println("2) 매출조회");
 		System.out.println("------------");
 	}
-	
+
 	private void runAdminSubMenu(int select) {
-		if(select == 1) {
+		if (select == 1) {
 			printItemMenu();
 			runItemSubMenu(option());
 		}
 //		else if(select == 2)
 //			viewSales();
 	}
-	
+
 	private void printItemMenu() {
 		System.out.println("------------");
 		System.out.println("1) 등록");
@@ -110,9 +158,18 @@ public class Shop {
 		System.out.println("------------");
 	}
 	
+	private void enrollItem() {
+		String itemName = inputString("품목명");
+		int price = inputNumber("가격");
+		int itemCount = inputNumber("수량");
+		
+		itemManager.createItem(itemName, price, itemCount);
+		System.out.println("아이템 등록 완료");
+	}
+
 	private void runItemSubMenu(int select) {
-//		if(select == 1)
-//			enrollItem();
+		if(select == 1)
+			enrollItem();
 //		else if(select == 2)
 //			deleteItem();
 //		else if(select == 3)
@@ -120,40 +177,39 @@ public class Shop {
 //		else if(select == 4)
 //			modifyItemCount();
 	}
-	
+
 	private void runMenu(int select) {
-		if(select == 1) {
+		if (select == 1) {
 			printUserSubMenu();
 			runUserSubMenu(option());
-		}
-		else if(select == 2) {
+		} else if (select == 2) {
 			printAdminSubMenu();
 			runAdminSubMenu(option());
 		}
 	}
-	
+
 	// 검수용 >>>
 	private void printStatus() {
 		int userSize = userManager.getUserSize();
 		int itemSize = itemManager.getItemSize();
-		
+
 		String status = String.format("User : %d\nItem : %d", userSize, itemSize);
-		
+
 		System.out.println(status);
 	}
-	
+
 	public void run() {
-		while(isRun) {
+		while (isRun) {
 			printStatus();
 			printMenu();
 			runMenu(option());
 		}
 	}
-	
+
 	private int option() {
 		return inputNumber("선택");
 	}
-	
+
 	private int inputNumber(String message) {
 		int number = -1;
 		try {
@@ -165,7 +221,7 @@ public class Shop {
 		}
 		return number;
 	}
-	
+
 	private String inputString(String message) {
 		System.out.print(message + " : ");
 		return scanner.next();
