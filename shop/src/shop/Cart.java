@@ -52,5 +52,9 @@ public class Cart {
 		Item target = findItemInCartByCode(code);
 		list.remove(target);
 	}
+	
+	public int cartSize() {
+		return this.list.size();
+	}
 
 }
