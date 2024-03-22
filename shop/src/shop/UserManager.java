@@ -37,7 +37,7 @@ public class UserManager {
 	public boolean existedId(String id) {
 		User user = getUserById(id);
 		
-		if (user.getCart() == null) {
+		if (user.getId() == null) {
 			return true;
 		}
 		return false;
