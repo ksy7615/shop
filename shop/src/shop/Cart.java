@@ -22,6 +22,15 @@ public class Cart {
 		return new Item();
 	}
 	
+	public Item findItemInCartByCode(int code) {
+		for(Item item : list) {
+			if(item.getItemCode() == code) {
+				return item;
+			}
+		}
+		return new Item();
+	}
+	
 	public void printMyCart() {
 		for(int i=0; i<list.size(); i++) {
 			Item item = list.get(i);
@@ -29,5 +38,13 @@ public class Cart {
 			System.out.printf("%d) %s", i+1, item.getItemName());
 		}
 	}
+	
+	// 수량 수정
+	public void updateCart(Item item, int count) {
+		int code = item.getItemCode();
+		Item target = findItemInCartByCode(code);
+		target.setItemCount(count);
+	}
+	
 
 }
