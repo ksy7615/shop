@@ -203,6 +203,7 @@ public class Shop {
 		System.out.println("아이템 삭제 완료");
 		
 		// + 아이템 삭제하면 회원의 장바구니에 있는 해당 아이템도 삭제
+		userManager.getUser(log).getCart().deleteCart(item);
 	}
 
 	private void runItemSubMenu(int select) {
