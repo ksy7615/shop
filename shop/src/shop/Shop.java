@@ -127,7 +127,6 @@ public class Shop {
 			item.setItemCount(item.getItemCount()-count);
 			
 			userManager.getUser(log).getCart().addCart();
-			userManager.getUser(log).getCart().printMyCart();
 			System.out.println("장바구니 담기 완료");
 		}
 	}
@@ -142,6 +141,14 @@ public class Shop {
 	
 	private void deleteOfBasket() {
 		userManager.getUser(log).getCart().printMyCart();
+		int index = inputNumber("삭제할 품목") - 1;
+		
+		if(index < 0 || index >= userManager.getUser(log).getCart().cartSize())
+			return;
+		
+		Item item = itemManager.getItem(index);
+		
+		userManager.getUser(log).getCart().deleteCart(item);
 	}
 
 	private void runMypage(int select) {
