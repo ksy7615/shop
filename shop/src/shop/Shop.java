@@ -255,16 +255,28 @@ public class Shop {
 
 		Item item = itemManager.getItem(index);
 		itemManager.deleteItem(item);
-		System.out.println("아이템 삭제 완료");
-
 		// + 아이템 삭제하면 회원의 장바구니에 있는 해당 아이템도 삭제
 		userManager.getUser(log).getCart().deleteCart(item);
+		
+		System.out.println("아이템 삭제 완료");
 	}
 	
 	private void modifyItemPrice() {
 		itemManager.printItemAll();
 		int index = inputNumber("가격 수정할 품목") - 1;
 		
+		if(index < 0 || index >= itemManager.getItemSize()) {
+			return;
+		}
+		
+		Item item = itemManager.getItem(index);
+		int price = inputNumber("수정할 가격");
+		
+		if(price < 0)
+			return;
+		
+		item.setPrice(price);
+		System.out.println("가격 수정 완료");
 	}
 
 	private void runItemSubMenu(int select) {
@@ -272,8 +284,8 @@ public class Shop {
 			enrollItem();
 		else if (select == 2)
 			deleteItem();
-//		else if(select == 3)
-//			modifyItemPrice();
+		else if(select == 3)
+			modifyItemPrice();
 //		else if(select == 4)
 //			modifyItemCount();
 	}
