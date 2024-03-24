@@ -248,6 +248,10 @@ public class Shop {
 	private void deleteItem() {
 		itemManager.printItemAll();
 		int index = inputNumber("삭제할 품목") - 1;
+		
+		if(index < 0 || index >= itemManager.getItemSize()) {
+			return;
+		}
 
 		Item item = itemManager.getItem(index);
 		itemManager.deleteItem(item);
@@ -255,6 +259,12 @@ public class Shop {
 
 		// + 아이템 삭제하면 회원의 장바구니에 있는 해당 아이템도 삭제
 		userManager.getUser(log).getCart().deleteCart(item);
+	}
+	
+	private void modifyItemPrice() {
+		itemManager.printItemAll();
+		int index = inputNumber("가격 수정할 품목") - 1;
+		
 	}
 
 	private void runItemSubMenu(int select) {
