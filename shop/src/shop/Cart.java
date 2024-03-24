@@ -12,14 +12,15 @@ public class Cart {
 	// CRUD
 
 	// C
-	public Item addCart() {
-		for (Item item : list) {
-			if (item.getItemCode() != 0) {
-				list.add(item);
-				return item.clone();
-			}
+	public Item addCart(Item item, int count) {
+		if(item.getItemCount() >= count) {
+			Item itemInCart = item.clone();
+			itemInCart.setItemCount(count);
+			list.add(itemInCart);
+			return itemInCart;
+		} else {
+			return new Item();
 		}
-		return new Item();
 	}
 	
 	public Item getItemInCart () {
