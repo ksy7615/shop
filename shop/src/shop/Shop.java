@@ -184,6 +184,7 @@ public class Shop {
 
 			if (item.getItemCode() == cart.getItemInCart().getItemCode())
 				item.setItemCount(item.getItemCount() - cart.getItemInCart().getItemCount());
+			userManager.getUser(log).getCart().deleteCart(item);
 		}
 		System.out.println("결제 완료");
 	}
