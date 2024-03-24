@@ -1,10 +1,13 @@
 package shop;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
 	private UserManager userManager = new UserManager();
 	private ItemManager itemManager = new ItemManager();
+	// 총 매출용
+	private ArrayList<Item> soldItems;
 
 	private Scanner scanner = new Scanner(System.in);
 
@@ -14,6 +17,7 @@ public class Shop {
 	private int log;
 
 	public Shop(String shopTitle) {
+		soldItems = new ArrayList<>();
 		this.shopTitle = shopTitle;
 		this.isRun = true;
 		this.log = -1;
@@ -209,9 +213,8 @@ public class Shop {
 		if (select == 1) {
 			printItemMenu();
 			runItemSubMenu(option());
-		}
-//		else if(select == 2)
-//			viewSales();
+		} else if (select == 2)
+			viewSales();
 	}
 
 	private void printItemMenu() {
@@ -221,6 +224,10 @@ public class Shop {
 		System.out.println("3) 가격수정");
 		System.out.println("4) 수량수정");
 		System.out.println("------------");
+	}
+
+	private void viewSales() {
+		int totalSales = 0;
 	}
 
 	private void enrollItem() {
