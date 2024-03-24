@@ -191,6 +191,7 @@ public class Shop {
 			userManager.getUser(log).getCart().deleteCart(item);
 		}
 		System.out.println("결제 완료");
+		soldItems.add(cart.getItemInCart());
 	}
 
 	private void runMypage(int select) {
