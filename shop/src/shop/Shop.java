@@ -278,6 +278,24 @@ public class Shop {
 		item.setPrice(price);
 		System.out.println("가격 수정 완료");
 	}
+	
+	private void modifyItemCount() {
+		itemManager.printItemAll();
+		int index = inputNumber("수량 수정할 품목") - 1;
+		
+		if(index < 0 || index >= itemManager.getItemSize()) {
+			return;
+		}
+		
+		Item item = itemManager.getItem(index);
+		int count = inputNumber("수정할 수량");
+		
+		if(count < 0)
+			return;
+		
+		item.setItemCount(count);
+		System.out.println("수량 수정 완료");
+	}
 
 	private void runItemSubMenu(int select) {
 		if (select == 1)
@@ -286,8 +304,8 @@ public class Shop {
 			deleteItem();
 		else if(select == 3)
 			modifyItemPrice();
-//		else if(select == 4)
-//			modifyItemCount();
+		else if(select == 4)
+			modifyItemCount();
 	}
 
 	private void runMenu(int select) {
