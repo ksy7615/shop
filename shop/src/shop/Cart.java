@@ -40,10 +40,11 @@ public class Cart {
 	}
 	
 	public void printMyCart() {
+		System.out.println("MY BASKET");
 		for(int i=0; i<list.size(); i++) {
 			Item item = list.get(i);
-			System.out.println("MY BASKET");
-			System.out.printf("%d) %s", i+1, item.getItemName());
+			
+			System.out.printf("%d) %s - 가격:%d원 (%d개)\n", i+1, item.getItemName(), item.getPrice(), item.getItemCount());
 		}
 	}
 	
