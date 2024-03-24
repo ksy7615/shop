@@ -117,16 +117,14 @@ public class Shop {
 			return;
 
 		int count = inputNumber("담을 수량");
-		for (int i = 0; i < itemManager.getItemSize(); i++) {
-			Item item = itemManager.getItem(i);
+		Item item = itemManager.getItem(index);
 
-			if (item.getItemCount() < count) {
-				System.err.println("품절");
-				return;
-			}
-			userManager.getUser(log).getCart().addCart();
-			System.out.println("장바구니 담기 완료");
+		if (item.getItemCount() < count) {
+			System.err.println("품절");
+			return;
 		}
+		userManager.getUser(log).getCart().addCart(item, count);
+		System.out.println("장바구니 담기 완료");
 	}
 
 	private void printMyCartMenu() {
@@ -164,27 +162,27 @@ public class Shop {
 
 	private void purchase() {
 		userManager.getUser(log).getCart().printMyCart();
-		
+
 		Cart cart = userManager.getUser(log).getCart();
-		
+
 		// 결제 금액 >> 수량 * price
 		int total = 0;
-		for(int i=0; i<cart.cartSize(); i++) {
+		for (int i = 0; i < cart.cartSize(); i++) {
 			total = cart.getItemInCart().getItemCount() * cart.getItemInCart().getPrice();
 			System.out.println("결제할 금액 = " + total);
 		}
-		
+
 		int money = inputNumber("결제하기");
-		
-		if(money < total) {
+
+		if (money < total) {
 			System.out.println("잔액이 부족합니다.");
 			return;
 		}
-		
+
 		for (int i = 0; i < itemManager.getItemSize(); i++) {
 			Item item = itemManager.getItem(i);
-			
-			if(item.getItemCode() == cart.getItemInCart().getItemCode())
+
+			if (item.getItemCode() == cart.getItemInCart().getItemCode())
 				item.setItemCount(item.getItemCount() - cart.getItemInCart().getItemCount());
 		}
 		System.out.println("결제 완료");
@@ -195,7 +193,7 @@ public class Shop {
 			deleteOfBasket();
 		else if (select == 2)
 			modifyOfBasket();
-		else if(select == 3)
+		else if (select == 3)
 			purchase();
 	}
 
