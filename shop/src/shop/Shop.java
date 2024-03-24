@@ -228,6 +228,11 @@ public class Shop {
 
 	private void viewSales() {
 		int totalSales = 0;
+		
+		for (Item item : soldItems)
+            totalSales += item.getPrice() * item.getItemCount();
+
+        System.out.println("총 매출: " + totalSales + "원");
 	}
 
 	private void enrollItem() {
