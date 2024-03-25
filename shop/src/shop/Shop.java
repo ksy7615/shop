@@ -29,12 +29,35 @@ public class Shop {
 		this.log = -1;
 	}
 
-	public void loadItemFile(File itemFile, FileReader fileReader, BufferedReader bufferedReader) {
+	private void loadItemFile(File itemFile, FileReader fileReader, BufferedReader bufferedReader) {
 		if (itemFile.exists()) {
 			String data = "";
 
 			try {
 				fileReader = new FileReader(itemFile);
+				bufferedReader = new BufferedReader(fileReader);
+
+				while (bufferedReader.ready()) {
+					data += bufferedReader.readLine() + "\n";
+				}
+
+				bufferedReader.close();
+				fileReader.close();
+
+				System.out.println("파일로드 성공");
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.err.println("파일로드 실패");
+			}
+		}
+	}
+	
+	private void loadUserFile(File userFile, FileReader fileReader, BufferedReader bufferedReader) {
+		if (userFile.exists()) {
+			String data = "";
+
+			try {
+				fileReader = new FileReader(userFile);
 				bufferedReader = new BufferedReader(fileReader);
 
 				while (bufferedReader.ready()) {
@@ -387,7 +410,7 @@ public class Shop {
 		return data;
 	}
 	
-	public void saveUserFile(FileWriter fileWriter, File itemFile) {
+	private void saveUserFile(FileWriter fileWriter, File itemFile) {
 		String data = createUserData();
 
 		try {
@@ -422,6 +445,11 @@ public class Shop {
 		}
 		return data;
 	}
+	
+	private void autoSave() {
+		saveItemFile(fileManager.getFileWriter(), fileManager.getItemFile());
+		saveUserFile(fileManager.getFileWriter(), fileManager.getUserFile());
+	}
 
 	// 자동저장&로드 위해 run 안에 추가
 	public void run() {
@@ -429,8 +457,7 @@ public class Shop {
 			printStatus();
 			printMenu();
 			runMenu(option());
-			saveItemFile(fileManager.getFileWriter(), fileManager.getItemFile());
-			saveUserFile(fileManager.getFileWriter(), fileManager.getUserFile());
+			autoSave();
 		}
 	}
 
