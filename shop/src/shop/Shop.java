@@ -374,9 +374,6 @@ public class Shop {
 	private String createItemData() {
 		String data = "";
 		// <아이템> 아이템명/갯수/가격
-		// <유저> 이름/아이디/패스워드
-		// 구매내역/갯수
-
 		if (itemManager.getItemSize() > 0) {
 			for (int i = 0; i < itemManager.getItemSize(); i++) {
 				Item item = itemManager.getItem(i);
@@ -384,6 +381,28 @@ public class Shop {
 
 				if (i < itemManager.getItemSize() - 1)
 					data += "\n";
+			}
+		}
+		return data;
+	}
+	
+	private String createUserData() {
+		String data = "";
+		// <유저> 이름/아이디/패스워드
+		// 구매내역/갯수
+		if (userManager.getUserSize() > 0) {
+			for(int i=0; i<userManager.getUserSize(); i++) {
+				User user = userManager.getUser(i);
+				data += user.getName() + "/" + user.getId() + "/" + user.getPassword();
+				
+				if(user.getCart() != null) {
+					data += "\n";
+					Item itemInCart = user.getCart().getItemInCart();
+					data += itemInCart.getItemName() + "/" + itemInCart.getItemCount();
+					
+					if(i < user.getCart().cartSize() - 1)
+						data += "\n";
+				}
 			}
 		}
 		return data;
