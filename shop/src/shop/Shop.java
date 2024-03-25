@@ -1,5 +1,10 @@
 package shop;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,6 +26,29 @@ public class Shop {
 		this.shopTitle = shopTitle;
 		this.isRun = true;
 		this.log = -1;
+	}
+
+	public void loadItemFile(File itemFile, FileReader fileReader, BufferedReader bufferedReader) {
+		if (itemFile.exists()) {
+			String data = "";
+
+			try {
+				fileReader = new FileReader(itemFile);
+				bufferedReader = new BufferedReader(fileReader);
+
+				while (bufferedReader.ready()) {
+					data += bufferedReader.readLine() + "\n";
+				}
+
+				bufferedReader.close();
+				fileReader.close();
+
+				System.out.println("파일로드 성공");
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.err.println("파일로드 실패");
+			}
+		}
 	}
 
 	private void printMenu() {
@@ -229,11 +257,11 @@ public class Shop {
 
 	private void viewSales() {
 		int totalSales = 0;
-		
-		for (Item item : soldItems)
-            totalSales += item.getPrice() * item.getItemCount();
 
-        System.out.println("총 매출: " + totalSales + "원");
+		for (Item item : soldItems)
+			totalSales += item.getPrice() * item.getItemCount();
+
+		System.out.println("총 매출: " + totalSales + "원");
 	}
 
 	private void enrollItem() {
@@ -248,8 +276,8 @@ public class Shop {
 	private void deleteItem() {
 		itemManager.printItemAll();
 		int index = inputNumber("삭제할 품목") - 1;
-		
-		if(index < 0 || index >= itemManager.getItemSize()) {
+
+		if (index < 0 || index >= itemManager.getItemSize()) {
 			return;
 		}
 
@@ -257,42 +285,42 @@ public class Shop {
 		itemManager.deleteItem(item);
 		// + 아이템 삭제하면 회원의 장바구니에 있는 해당 아이템도 삭제
 		userManager.getUser(log).getCart().deleteCart(item);
-		
+
 		System.out.println("아이템 삭제 완료");
 	}
-	
+
 	private void modifyItemPrice() {
 		itemManager.printItemAll();
 		int index = inputNumber("가격 수정할 품목") - 1;
-		
-		if(index < 0 || index >= itemManager.getItemSize()) {
+
+		if (index < 0 || index >= itemManager.getItemSize()) {
 			return;
 		}
-		
+
 		Item item = itemManager.getItem(index);
 		int price = inputNumber("수정할 가격");
-		
-		if(price < 0)
+
+		if (price < 0)
 			return;
-		
+
 		item.setPrice(price);
 		System.out.println("가격 수정 완료");
 	}
-	
+
 	private void modifyItemCount() {
 		itemManager.printItemAll();
 		int index = inputNumber("수량 수정할 품목") - 1;
-		
-		if(index < 0 || index >= itemManager.getItemSize()) {
+
+		if (index < 0 || index >= itemManager.getItemSize()) {
 			return;
 		}
-		
+
 		Item item = itemManager.getItem(index);
 		int count = inputNumber("수정할 수량");
-		
-		if(count < 0)
+
+		if (count < 0)
 			return;
-		
+
 		item.setItemCount(count);
 		System.out.println("수량 수정 완료");
 	}
@@ -302,9 +330,9 @@ public class Shop {
 			enrollItem();
 		else if (select == 2)
 			deleteItem();
-		else if(select == 3)
+		else if (select == 3)
 			modifyItemPrice();
-		else if(select == 4)
+		else if (select == 4)
 			modifyItemCount();
 	}
 
@@ -326,6 +354,39 @@ public class Shop {
 		String status = String.format("User : %d\nItem : %d", userSize, itemSize);
 
 		System.out.println(status);
+	}
+
+	public void saveItemFile(FileWriter fileWriter, File itemFile) {
+		String data = createItemData();
+
+		try {
+			fileWriter = new FileWriter(itemFile);
+			fileWriter.write(data);
+			fileWriter.close();
+
+			System.out.println("아이템 파일저장 성공");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("아이템 파일저장 실패");
+		}
+	}
+
+	private String createItemData() {
+		String data = "";
+		// <아이템> 아이템명/갯수/가격
+		// <유저> 이름/아이디/패스워드
+		// 구매내역/갯수
+
+		if (itemManager.getItemSize() > 0) {
+			for (int i = 0; i < itemManager.getItemSize(); i++) {
+				Item item = itemManager.getItem(i);
+				data += item.getItemName() + "/" + item.getItemCount() + "/" + item.getPrice();
+
+				if (i < itemManager.getItemSize() - 1)
+					data += "\n";
+			}
+		}
+		return data;
 	}
 
 	public void run() {
