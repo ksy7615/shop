@@ -386,6 +386,21 @@ public class Shop {
 		return data;
 	}
 	
+	public void saveUserFile(FileWriter fileWriter, File itemFile) {
+		String data = createUserData();
+
+		try {
+			fileWriter = new FileWriter(itemFile);
+			fileWriter.write(data);
+			fileWriter.close();
+
+			System.out.println("유저 파일저장 성공");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("유저 파일저장 실패");
+		}
+	}
+	
 	private String createUserData() {
 		String data = "";
 		// <유저> 이름/아이디/패스워드
