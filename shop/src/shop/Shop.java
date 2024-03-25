@@ -74,6 +74,11 @@ public class Shop {
 			}
 		}
 	}
+	
+	private void autoLoad() {
+		loadItemFile(fileManager.getItemFile(), fileManager.getFileReader(), fileManager.getBufferedReader());
+		loadUserFile(fileManager.getUserFile(), fileManager.getFileReader(), fileManager.getBufferedReader());
+	}
 
 	private void printMenu() {
 		System.out.printf("----%s----\n", this.shopTitle);
