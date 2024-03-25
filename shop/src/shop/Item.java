@@ -10,10 +10,10 @@ public class Item {
 		
 	}
 	
-	public Item(String itemName, int price, int itemCount) {
+	public Item(String itemName,int itemCount, int price) {
 		this.itemName = itemName;
-		this.price = price;
 		this.itemCount = itemCount;
+		this.price = price;
 	}
 	
 	public Item(String itemName, int price, int itemCode, int itemCount) {
