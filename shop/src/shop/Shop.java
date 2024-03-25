@@ -40,6 +40,8 @@ public class Shop {
 				while (bufferedReader.ready()) {
 					data += bufferedReader.readLine() + "\n";
 				}
+				
+				parseLoadedItemData(data);
 
 				bufferedReader.close();
 				fileReader.close();
@@ -49,6 +51,20 @@ public class Shop {
 				e.printStackTrace();
 				System.err.println("파일로드 실패");
 			}
+		}
+	}
+	
+	private void parseLoadedItemData(String data) {
+		String[] line = data.split("\n");
+		
+		for(int i=0; i<itemManager.getItemSize(); i++) {
+			String[] itemInfo = line[i].split("/");
+			
+			String itemName = itemInfo[0];
+			int itemCount = Integer.parseInt(itemInfo[1]);
+			int itemPrice = Integer.parseInt(itemInfo[2]);
+			
+			itemManager.createItem(itemName, itemPrice, itemCount);
 		}
 	}
 	
