@@ -10,6 +10,12 @@ public class Item {
 		
 	}
 	
+	public Item(String itemName, int price, int itemCount) {
+		this.itemName = itemName;
+		this.price = price;
+		this.itemCount = itemCount;
+	}
+	
 	public Item(String itemName, int price, int itemCode, int itemCount) {
 		this.itemName = itemName;
 		this.price = price;
