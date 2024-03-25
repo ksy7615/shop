@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Shop {
 	private UserManager userManager = new UserManager();
 	private ItemManager itemManager = new ItemManager();
+	private FileManager fileManager = new FileManager();
 	// 총 매출용
 	private ArrayList<Item> soldItems;
 
@@ -404,12 +405,11 @@ public class Shop {
 	private String createUserData() {
 		String data = "";
 		// <유저> 이름/아이디/패스워드
-		// 구매내역/갯수
 		if (userManager.getUserSize() > 0) {
 			for(int i=0; i<userManager.getUserSize(); i++) {
 				User user = userManager.getUser(i);
 				data += user.getName() + "/" + user.getId() + "/" + user.getPassword();
-				
+				// 구매내역/갯수
 				if(user.getCart() != null) {
 					data += "\n";
 					Item itemInCart = user.getCart().getItemInCart();
@@ -423,11 +423,14 @@ public class Shop {
 		return data;
 	}
 
+	// 자동저장&로드 위해 run 안에 추가
 	public void run() {
 		while (isRun) {
 			printStatus();
 			printMenu();
 			runMenu(option());
+			saveItemFile(fileManager.getFileWriter(), fileManager.getItemFile());
+			saveUserFile(fileManager.getFileWriter(), fileManager.getUserFile());
 		}
 	}
 
