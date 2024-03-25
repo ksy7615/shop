@@ -458,6 +458,7 @@ public class Shop {
 
 	// 자동저장&로드 위해 run 안에 추가
 	public void run() {
+		autoLoad();
 		while (isRun) {
 			printStatus();
 			printMenu();
